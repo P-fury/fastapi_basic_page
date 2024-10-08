@@ -70,14 +70,14 @@ def query_item_by_parameters(
 @app.post("/")
 def add_item(item: Item) -> dict[str, Item]:
     if item.id in items:
-        HTTPException(status_code=400, detail=f"Item with id: {item.id=} already exists")
+        raise HTTPException(status_code=400, detail=f"Item with id: {item.id=} already exists")
 
-    item[item.id] = item
+    items[item.id] = item
     return {"added": item}
+
 
 @app.delete("/delete/{item_id}")
 def delete_item(item_id: int) -> dict[str, Item]:
-
     if item_id not in items:
         raise HTTPException(status_code=400, detail=f"Item with id: {item_id=} not found")
     item = items.pop(item_id)
